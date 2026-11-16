@@ -28,6 +28,7 @@ a{color:#1D2B2A}a:hover{color:#0E5A4E}
 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px">
 <a href="#channels" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 26px; background: #F2B544; color: #1D2B2A; font-weight: 700; font-size: 17px; text-decoration: none">채널 바로가기</a>
 <a href="#ebook" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 26px; border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">전자책 보기</a>
+<a href="#wp-posts" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 26px; border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">새 글 보기</a>
 </div>
 </div>
 </header>
@@ -60,6 +61,41 @@ a{color:#1D2B2A}a:hover{color:#0E5A4E}
 </a>
 </div>
 </section>
+
+<section id="wp-posts" style="display: flex; flex-direction: column; gap: 20px">
+<div>
+<h2 style="margin: 0 0 8px; font-size: 28px; font-weight: 900">워드프레스 새 글</h2>
+<p style="margin: 0; font-size: 16px; color: #4A5A58">「바람이 전하는 말」 워드프레스에 올라온 글이 자동으로 여기에 보입니다.</p>
+</div>
+<div id="wp-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+<p style="margin: 0; font-size: 16px; color: #4A5A58">글을 불러오는 중입니다…</p>
+</div>
+<a href="https://jingumdari.wordpress.com/" target="_blank" rel="noopener" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 26px; background: #1F6E62; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">워드프레스에서 전체 글 보기 →</a>
+</section>
+
+<script>
+(function(){
+  var box=document.getElementById('wp-list');
+  var api='https://public-api.wordpress.com/rest/v1.1/sites/jingumdari.wordpress.com/posts/?number=8&fields=title,URL,date,categories,excerpt';
+  function esc(t){var d=document.createElement('div');d.innerHTML=t||'';return (d.textContent||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  fetch(api).then(function(r){return r.json();}).then(function(data){
+    var posts=(data&&data.posts)||[];
+    if(!posts.length){box.innerHTML='<p style="margin:0;font-size:16px;color:#4A5A58">아직 올라온 글이 없습니다.</p>';return;}
+    box.innerHTML=posts.map(function(p){
+      var cat=Object.keys(p.categories||{})[0]||'';
+      var d=new Date(p.date); var ds=d.getFullYear()+'.'+(d.getMonth()+1)+'.'+d.getDate();
+      var ex=esc(p.excerpt); if(ex.length>70) ex=ex.slice(0,70)+'…';
+      return '<a href="'+p.URL+'" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:8px;padding:20px;border-radius:16px;background:#FFFFFF;border:1px solid #D5DEDB;text-decoration:none;color:#1D2B2A">'
+        +'<span style="font-size:14px;font-weight:700;color:#A8441A">'+esc(cat)+' · '+ds+'</span>'
+        +'<strong style="font-size:18px;line-height:1.45">'+esc(p.title)+'</strong>'
+        +(ex?'<span style="font-size:15px;line-height:1.6;color:#4A5A58">'+ex+'</span>':'')
+        +'</a>';
+    }).join('');
+  }).catch(function(){
+    box.innerHTML='<p style="margin:0;font-size:16px;color:#4A5A58">글을 불러오지 못했습니다. 아래 버튼으로 워드프레스에서 바로 보세요.</p>';
+  });
+})();
+</script>
 
 <section id="channels" style="display: flex; flex-direction: column; gap: 28px">
 <div>
