@@ -29,6 +29,7 @@ a{color:#1D2B2A}a:hover{color:#0E5A4E}
 <a href="#channels" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 30px; border-radius: 30px; background: #F2B544; color: #1D2B2A; font-weight: 700; font-size: 20px; text-decoration: none">채널 바로가기</a>
 <a href="#ebook" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 30px; border-radius: 30px; border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 700; font-size: 20px; text-decoration: none">전자책 보기</a>
 <a href="#wp-posts" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 30px; border-radius: 30px; border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 700; font-size: 20px; text-decoration: none">새 글 보기</a>
+<a href="#travel" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 30px; border-radius: 30px; border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 700; font-size: 20px; text-decoration: none">여행에세이</a>
 </div>
 </div>
 </header>
@@ -94,6 +95,37 @@ a{color:#1D2B2A}a:hover{color:#0E5A4E}
   }).catch(function(){
     box.innerHTML='<p style="margin:0;font-size:16px;color:#4A5A58">글을 불러오지 못했습니다. 아래 버튼으로 워드프레스에서 바로 보세요.</p>';
   });
+})();
+</script>
+
+<section id="travel" style="display: flex; flex-direction: column; gap: 20px; background: #F6EEE2; border: 2px solid #D9B98C; border-radius: 24px; padding: 32px 24px">
+<div>
+<h2 style="margin: 0 0 8px; font-size: 28px; font-weight: 900; color: #7A3B22">🏯 여행에세이 · 서울 산책</h2>
+<p style="margin: 0; font-size: 17px; color: #5A4A3A">인사동에서 익선동·청계천·고궁까지, 사흘에 한 편씩 걷는 에세이입니다. 글 아래에 영어 번역본(English)도 함께 실립니다.</p>
+</div>
+<div id="travel-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+<p style="margin: 0; font-size: 17px; color: #5A4A3A">첫 글 「인사동, 골목에서 차 한 잔」이 곧 올라옵니다.</p>
+</div>
+<a href="https://jingumdari.wordpress.com/travel-essay-series/" target="_blank" rel="noopener" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 60px; padding: 0 30px; border-radius: 30px; background: #A03C28; color: #FFFFFF; font-weight: 700; font-size: 20px; text-decoration: none">여행에세이 전체 보기 →</a>
+</section>
+
+<script>
+(function(){
+  var box=document.getElementById('travel-list');
+  var api='https://public-api.wordpress.com/rest/v1.1/sites/jingumdari.wordpress.com/posts/?category=travel-essay&number=3&fields=title,URL,date,excerpt,featured_image';
+  function esc(t){var d=document.createElement('div');d.innerHTML=t||'';return (d.textContent||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  fetch(api).then(function(r){return r.json();}).then(function(data){
+    var posts=(data&&data.posts)||[]; if(!posts.length) return;
+    box.innerHTML=posts.map(function(p){
+      var d=new Date(p.date); var ds=d.getFullYear()+'.'+(d.getMonth()+1)+'.'+d.getDate();
+      var ex=esc(p.excerpt); if(ex.length>70) ex=ex.slice(0,70)+'…';
+      var img=p.featured_image?'<img src="'+p.featured_image+'?w=600" alt="" style="width:100%;border-radius:12px;display:block">':'';
+      return '<a href="'+p.URL+'" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:18px;background:#FFFFFF;border:2px solid #D9B98C;text-decoration:none;color:#1D2B2A">'+img
+        +'<span style="font-size:16px;font-weight:700;color:#A03C28">'+ds+'</span>'
+        +'<strong style="font-size:22px;line-height:1.45">'+esc(p.title)+'</strong>'
+        +(ex?'<span style="font-size:17px;line-height:1.6;color:#4A5A58">'+ex+'</span>':'')+'</a>';
+    }).join('');
+  }).catch(function(){});
 })();
 </script>
 
