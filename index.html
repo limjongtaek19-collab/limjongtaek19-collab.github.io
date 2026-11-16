@@ -64,8 +64,8 @@ a{color:#1D2B2A}a:hover{color:#0E5A4E}
 
 <section id="wp-posts" style="display: flex; flex-direction: column; gap: 20px">
 <div>
-<h2 style="margin: 0 0 8px; font-size: 28px; font-weight: 900">워드프레스 새 글</h2>
-<p style="margin: 0; font-size: 16px; color: #4A5A58">「바람이 전하는 말」 워드프레스에 올라온 글이 자동으로 여기에 보입니다.</p>
+<h2 style="margin: 0 0 8px; font-size: 28px; font-weight: 900">연재별 최신 글</h2>
+<p style="margin: 0; font-size: 16px; color: #4A5A58">「바람이 전하는 말」 워드프레스의 연재마다 가장 최근 글 한 편씩 자동으로 보입니다.</p>
 </div>
 <div id="wp-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
 <p style="margin: 0; font-size: 16px; color: #4A5A58">글을 불러오는 중입니다…</p>
@@ -76,10 +76,10 @@ a{color:#1D2B2A}a:hover{color:#0E5A4E}
 <script>
 (function(){
   var box=document.getElementById('wp-list');
-  var api='https://public-api.wordpress.com/rest/v1.1/sites/jingumdari.wordpress.com/posts/?number=8&fields=title,URL,date,categories,excerpt';
+  var api='https://public-api.wordpress.com/rest/v1.1/sites/jingumdari.wordpress.com/posts/?number=60&fields=title,URL,date,categories,excerpt';
   function esc(t){var d=document.createElement('div');d.innerHTML=t||'';return (d.textContent||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   fetch(api).then(function(r){return r.json();}).then(function(data){
-    var posts=(data&&data.posts)||[];
+    var all=(data&&data.posts)||[];var seen={};var posts=all.filter(function(p){var c=Object.keys(p.categories||{})[0]||'기타';if(seen[c])return false;seen[c]=1;return true;});
     if(!posts.length){box.innerHTML='<p style="margin:0;font-size:16px;color:#4A5A58">아직 올라온 글이 없습니다.</p>';return;}
     box.innerHTML=posts.map(function(p){
       var cat=Object.keys(p.categories||{})[0]||'';
