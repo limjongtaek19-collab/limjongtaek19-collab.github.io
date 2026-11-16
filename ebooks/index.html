@@ -83,6 +83,13 @@
   footer a{color:#cfd8d6}
   footer .copy{margin-top:26px;font-size:14px;opacity:.7}
   .totop{position:fixed;right:16px;bottom:16px;background:var(--accent);color:#fff;text-decoration:none;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  .cover-img{width:100%;display:block;background:#eee}
+  .cover{aspect-ratio:3/4}
+  .cover .sub2{font-size:17px;opacity:.92;position:relative;z-index:1;margin-top:-6px}
+  .toc-h{font-size:20px;margin:0 0 10px;color:var(--accent-dark)}
+  .toc-list{margin:0 0 18px;padding-left:0;list-style:none;font-size:17.5px}
+  .toc-list li{padding:8px 0;border-bottom:1px dashed var(--line)}
+  .toc-wait{color:var(--muted);font-size:17px}
 </style>
 </head>
 <body>
@@ -164,7 +171,7 @@ const CATEGORIES = [
 
 const BOOKS = [
   { cat:"pension", color:"c1", tag:"주택연금",
-    title:"집 한 채로 평생 월급 받기", subtitle:"2026 개정 주택연금 총정리 가이드", author:"백세길잡이",
+    title:"집 한 채로 평생 월급 받기", subtitle:"2026 개정 주택연금 총정리 가이드", author:"백세길잡이", img:"../images/ebook-cover.jpg",
     desc:"내 집에 살면서 매달 연금을 받는 주택연금, 가입부터 수령까지 한 권에 담았습니다.",
     points:["가입 조건과 예상 월 수령액","2026년 달라진 제도","가입 전 꼭 따져볼 점"], kmong:"" },
   { cat:"pension", color:"c2", tag:"연금 설계",
@@ -172,7 +179,7 @@ const BOOKS = [
     desc:"네 가지 연금을 층층이 쌓아 노후 생활비를 만드는 방법을 알려 드립니다.",
     points:["연금별 역할과 수령 전략","받는 시기와 세금 정리","나에게 맞는 조합 찾기"], kmong:"" },
   { cat:"tax", color:"c3", tag:"연말정산",
-    title:"2026년 귀속 연말정산 가이드", subtitle:"13월의 월급 제대로 챙기기", author:"백세길잡이",
+    title:"13월의 월급 제대로 받기", subtitle:"2026년 귀속 연말정산 완벽 가이드", toc:["머리말 — 연말정산은 12월에 끝납니다","1장. 5분 만에 이해하는 연말정산의 구조","2장. 2026년 귀속, 이것이 달라졌다 (핵심 11가지)","3장. 일정표와 준비물","4장. 인적공제 — 가장 큰 공제는 '사람'입니다","5장. 신용카드 등 소득공제 — '25% 문턱'만 기억하세요","6장. 주택 관련 공제 — 무주택자라면 꼭 챙기세요","7장. 연금저축·IRP 그리고 국민성장펀드","8장. 의료비·교육비·보험료 — 가족을 위해 쓴 돈을 돌려받기","9장. 기부금·결혼·출산·자녀 세액공제","10장. 맞벌이 부부 절세 전략 — 누구에게 몰아줄까?","11장. 12월 31일 전에 끝내야 할 체크리스트","12장. 자주 하는 실수 7가지와 놓친 공제 되찾기","부록. 한눈에 보는 2026년 귀속 공제 요약표","맺음말"], author:"백세길잡이",
     desc:"놓치기 쉬운 공제 항목과 환급을 늘리는 요령을 차근차근 정리했습니다.",
     points:["올해 바뀐 공제 항목","항목별 공제 체크리스트","자주 하는 실수 바로잡기"], kmong:"" },
   { cat:"tax", color:"c4", tag:"절세계좌",
@@ -211,15 +218,15 @@ CATEGORIES.forEach((cat,i)=>{
   sec.innerHTML = `<h2><span class="num">${i+1}</span>${esc(cat.name)}</h2><p class="sub">${esc(cat.sub)}</p>
     <div class="grid">${books.map(b=>`
       <article class="book">
-        <div class="cover ${b.color}">
+        ${b.img?`<img class="cover-img" src="${esc(b.img)}" alt="${esc(b.title)} 표지">`:`<div class="cover ${b.color}">
           <span class="tag">${esc(b.tag)}</span>
           <div class="ttl">${esc(b.title)}</div>
+          <div class="sub2">${esc(b.subtitle)}</div>
           <div class="au">${esc(b.author)} 지음</div>
-        </div>
+        </div>`}
         <div class="body">
-          <h3>${esc(b.subtitle)}</h3>
-          <p>${esc(b.desc)}</p>
-          <ul>${b.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
+          <h3 class="toc-h">목차</h3>
+          ${b.toc?`<ol class="toc-list">${b.toc.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>`:`<p class="toc-wait">목차는 곧 올려 드립니다.</p>`}
           <a class="buy" href="${esc(b.kmong||KMONG_PROFILE)}" target="_blank" rel="noopener">크몽에서 구매하기<small>가격·미리보기는 크몽에서 확인</small></a>
         </div>
       </article>`).join("")}
