@@ -13,6 +13,7 @@ main 브랜치에 올라간 내용이 그대로 사이트에 반영됩니다.
 - 징검다리(생활 경제·마음공부): 네이버 블로그 「바람이 전하는 말」 m.blog.naver.com/moonlighting2025 · 인스타 ar.chi.ve2027
 - 틱톡: @user6383818819091(징검다리), @wukongboomboom(sunrise)
 - 티스토리: snowball-2026.tistory.com, write0584.tistory.com
+- 구글 블로거 「J의 라이프 인사이트 노트」: j-lifeinsite.blogspot.com
 - 워드프레스 「바람이 전하는 말」: jingumdari.wordpress.com (최신 글은 공개 API로 자동 표시)
 - 쇼핑: 줍줍샵 limjongtaek21.zoopzoop.shop · 인포크링크 link.inpock.co.kr/limjt · 네이버 크리에이터샵 cshop.naver.com/wise_silverlife
 - 전자책 저자명: 백세길잡이(경제·건강), 징검다리(철학·불교·여행)
